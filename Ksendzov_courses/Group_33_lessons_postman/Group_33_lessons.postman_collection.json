@@ -210,7 +210,7 @@
 									"var resp_age = jsonData.age\r",
 									"\r",
 									"var req = request.data\r",
-									"var req_age = +req.age\r",
+									"var req_age = req.age\r",
 									"\r",
 									"var req_url = pm.request.url.query.toObject();\r",
 									"\r",
@@ -287,10 +287,72 @@
 									"console.log(\"req_raw = \", req_raw_json.salary)\r",
 									"\r",
 									"\r",
+									"// сравнение ож значения и полученного\r",
+									"pm.test(\"Req_Resp_AGE_check\", function () {\r",
+									"    pm.expect(resp_age).to.eql(req_age);       \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"age\": 33,\r\n    \"salary\": 1000,\r\n    \"name\": \"Vadim\",\r\n    \"auth_token\": \"{{token}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user_info",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user_info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user_info_josn_vnutri_json",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var resp_json = pm.response.json();\r",
+									"var resp_u_age = resp_json.person.u_age\r",
 									"\r",
-									"// pm.test(\"Req_Resp_AGE_check\", function () {\r",
-									"//     pm.expect(resp_age).to.eql(req_age);\r",
-									"// });"
+									"var req = request.data\r",
+									"\r",
+									"var req_raw_json = JSON.parse(pm.request.body.raw)\r",
+									"var req_age = req_raw_json.age;\r",
+									"\r",
+									"var req_url = pm.request.url.query.toObject();\r",
+									"\r",
+									"// вытягиваем из массива\r",
+									"var resp_salary = resp_json.person.u_name[1]\r",
+									"var req_salary = req_raw_json.salary\r",
+									"\r",
+									"console.log(\"req_age = \", req_age)\r",
+									"console.log(\"resp_u_age = \", resp_u_age)\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Req_Resp_AGE_check\", function () {\r",
+									"    pm.expect(req_age).to.eql(resp_u_age);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Req_Resp_AGE_check\", function () {\r",
+									"    pm.expect(req_salary).to.eql(resp_salary);\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
