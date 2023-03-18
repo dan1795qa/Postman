@@ -207,8 +207,15 @@
 							"var resp_pets = resp_family.pets;\r",
 							"var resp_dog = resp_pets.dog;\r",
 							"var resp_dog_name = resp_dog.name\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+							"});\r",
 							"var resp_dog_age = resp_dog.age\r",
+							"pm.test(\"Body matches string\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"age\");\r",
+							"});\r",
 							"\r",
+							"// -----Проверить что name равен Luky и age равен 4-------\r",
 							"pm.test(\"Age_4_check\", function () {\r",
 							"    pm.expect(resp_dog_age).to.eql(4);\r",
 							"    console.log('Success Age_4_check')\r",
@@ -219,8 +226,9 @@
 							"    console.log('Success Name_Lucky_check')\r",
 							"});\r",
 							"\r",
-							"console.log(\"resp_dog_name = \" + resp_dog_name)\r",
-							"console.log(\"resp_dog_age = \" + resp_dog_age)\r",
+							"\r",
+							"\r",
+							"\r",
 							"\r",
 							"\r",
 							""
@@ -334,11 +342,11 @@
 							"// -----Создать и передать в окружение переменную  name-------\r",
 							"pm.environment.set(\"name\", resp_name)\r",
 							"\r",
-							"// -----Создать и передать в окружение переменную  name-------\r",
+							"// -----Создать и передать в окружение переменную  age-------\r",
 							"pm.environment.set(\"age\", resp_age)\r",
 							"\r",
-							"// -----Создать и передать в окружение переменную  name-------\r",
-							"pm.environment.set(\"salary\", resp_salary)\r",
+							"// -----Создать и передать в окружение переменную  salary-------\r",
+							"pm.environment.set(\"salary\", resp_salary_0)\r",
 							"\r",
 							"\r",
 							"// -----Написать цикл который выведет в консоль по порядку элементы из параметра salary-------\r",
@@ -380,6 +388,161 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "HW_2_user_info_2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// -----Парсинг по ответу и запросу-------\r",
+							"var jsonData = pm.response.json();\r",
+							"var req = request.data \r",
+							"\r",
+							"// -----Проверить что resp имеет параметр start_qa_salary-------\r",
+							"var resp_start_qa_salary = jsonData.start_qa_salary\r",
+							"pm.test(\"Body matches start_qa_salary\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"start_qa_salary\");\r",
+							"});\r",
+							"\r",
+							"// -----Проверить что resp имеет параметр qa_salary_after_6_months-------\r",
+							"var resp_qa_salary_after_6_months = jsonData.qa_salary_after_6_months\r",
+							"pm.test(\"Body matches qa_salary_after_6_months\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"qa_salary_after_6_months\");\r",
+							"});\r",
+							"\r",
+							"// -----Проверить что resp имеет параметр qa_salary_after_12_months-------\r",
+							"var resp_qa_salary_after_12_months = jsonData.qa_salary_after_12_months\r",
+							"pm.test(\"Body matches qa_salary_after_12_months\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"qa_salary_after_12_months\");\r",
+							"});\r",
+							"\r",
+							"// -----Проверить что resp имеет параметр qa_salary_after_1.5_year-------\r",
+							"var resp_qa_salary_after_1_5_year = jsonData[\"qa_salary_after_1.5_year\"]\r",
+							"pm.test(\"Body matches qa_salary_after_1.5_year\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include('qa_salary_after_1.5_year');\r",
+							"});\r",
+							"\r",
+							"// -----Проверить что resp имеет параметр qa_salary_after_3.5_years-------\r",
+							"var resp_salary_after_3_5_years = jsonData['qa_salary_after_3.5_years']\r",
+							"pm.test(\"Body matches qa_salary_after_3.5_years\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"qa_salary_after_3.5_years\");\r",
+							"});\r",
+							"\r",
+							"// -----Проверить что resp имеет параметр person-------\r",
+							"var resp_person = jsonData.person\r",
+							"console.log(resp_person)\r",
+							"pm.test(\"Body matches person\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"person\");\r",
+							"});\r",
+							"\r",
+							"// ----------------------------------------------------------------------------------------------------\r",
+							"var req_salary = req.salary\r",
+							"console.log('req_salary ' +req_salary)\r",
+							"\r",
+							"// -----Проверить что start_qa_salary равен salary из req-------\r",
+							"pm.test(\"Req_salary_CHECK_Resp_start_qa_salary \", function () {\r",
+							"    pm.expect(+req_salary).to.eql(resp_start_qa_salary);\r",
+							"    console.log('Success Req_salary__Resp_start_qa_salary')\r",
+							"});\r",
+							"\r",
+							"// -----Проверить что qa_salary_after_6_months равен salary*2 из req------\r",
+							"pm.test(\"Req_salary*2_CHECK_Resp_qa_salary_after_6_months\", function () {\r",
+							"    pm.expect(+req_salary*2).to.eql(resp_qa_salary_after_6_months);\r",
+							"    console.log('Success Req_salary*2__Resp_qa_salary_after_6_months')\r",
+							"});\r",
+							"\r",
+							"// -----Проверить что qa_salary_after_12_months равен salary*2.7 из req-------\r",
+							"pm.test(\"Req_salary*2.7_CHECK_Resp_qa_salary_after_12_months\", function () {\r",
+							"    pm.expect(+req_salary*2.7).to.eql(resp_qa_salary_after_12_months);\r",
+							"    console.log('Success Req_salary*2.7__Resp_qa_salary_after_12_months')\r",
+							"});\r",
+							"\r",
+							"// -----Проверить что resp_qa_salary_after_1_5_year равен salary*3.3 из req-------\r",
+							"pm.test(\"Req_salary*3.3_CHECK_Resp_qa_salary_after_1_5_year\", function () {\r",
+							"    pm.expect(+req_salary*3.3).to.eql(resp_qa_salary_after_1_5_year);\r",
+							"    console.log('Success Req_salary*3.3__Resp_qa_salary_after_1_5_year')\r",
+							"});\r",
+							"\r",
+							"// -----Проверить что qa_salary_after_3.5_years равен salary*3.8 из req-------\r",
+							"pm.test(\"Req_salary*3.8_CHECK_Resp_qa_salary_after_3.5_years\", function () {\r",
+							"    pm.expect(+req_salary*3.8).to.eql(resp_salary_after_3_5_years);\r",
+							"    console.log('Success Req_salary*3.8__Resp_qa_salary_after_3.5_years')\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// Проверить, что в параметре person, 1-й элемент из u_name равен salary из request (salary забрать и request)\r",
+							"var resp_person_u_name_1 = resp_person.u_name[1]\r",
+							"\r",
+							"pm.test(\"Req_salary_CHECK_Resp_person_u_name_1\", function () {\r",
+							"    pm.expect(+req_salary).to.eql(resp_person_u_name_1);\r",
+							"    console.log('Success Req_salary__Resp_person_u_name_1')\r",
+							"});\r",
+							"\r",
+							"// Проверить, что что параметр u_age равен age из request (age забрать из request.)\r",
+							"var req_age = req.age\r",
+							"var resp_person_u_age = resp_person.u_age\r",
+							"\r",
+							"pm.test(\"Req_age_CHECK_Resp_person_u_age\", function () {\r",
+							"    pm.expect(+req_age).to.eql(resp_person_u_age);\r",
+							"    console.log('Success Req_age__Resp_person_u_age')\r",
+							"});\r",
+							"\r",
+							"//Проверить, что параметр u_salary_5_years равен salary*4.2 из request (salary забрать из request.)\r",
+							"var resp_person_u_salary_5_years = resp_person.u_salary_5_years\r",
+							"\r",
+							"pm.test(\"Req_salary*4.2_CHECK_Resp_person_u_salary_5_years\", function () {\r",
+							"    pm.expect(+req_salary*4.2).to.eql(resp_person_u_salary_5_years);\r",
+							"    console.log('Success Req_salary*4.2__Resp_person_u_salary_5_years')\r",
+							"});\r",
+							"\r",
+							"//***Написать цикл который выведет в консоль по порядку элементы списка из параметра person.\r",
+							"\r",
+							"for (var i in resp_person){\r",
+							"    console.log(resp_person[i])\r",
+							"}\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url}}/user_info_2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user_info_2"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -400,6 +563,12 @@
 					""
 				]
 			}
+		}
+	],
+	"variable": [
+		{
+			"key": "variable_key",
+			"value": ""
 		}
 	]
 }
