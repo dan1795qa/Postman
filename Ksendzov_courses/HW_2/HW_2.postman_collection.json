@@ -331,19 +331,21 @@
 							"    console.log('Success Req_Resp_salary_2_check')\r",
 							"});\r",
 							"\r",
-							"// -----Создать в окружении переменную  name-------\r",
+							"// -----Создать и передать в окружение переменную  name-------\r",
 							"pm.environment.set(\"name\", resp_name)\r",
 							"\r",
-							"// -----Создать в окружении переменную  age-------\r",
+							"// -----Создать и передать в окружение переменную  name-------\r",
 							"pm.environment.set(\"age\", resp_age)\r",
 							"\r",
-							"// -----Создать в окружении переменную  salary-------\r",
+							"// -----Создать и передать в окружение переменную  name-------\r",
 							"pm.environment.set(\"salary\", resp_salary)\r",
 							"\r",
 							"\r",
 							"// -----Написать цикл который выведет в консоль по порядку элементы из параметра salary-------\r",
 							"\r",
-							"\r",
+							"for (var i in resp_salary){\r",
+							"    console.log(+resp_salary[i])\r",
+							"}\r",
 							""
 						],
 						"type": "text/javascript"
@@ -378,6 +380,26 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
