@@ -348,10 +348,10 @@
 							"            \"type\": \"integer\"\r",
 							"        },\r",
 							"        \"daily_food\":{\r",
-							"            \"type\": \"integer\"\r",
+							"            \"type\": \"number\"\r",
 							"        },\r",
 							"        \"daily_sleep\": {\r",
-							"            \"type\": \"integer\"\r",
+							"            \"type\": \"number\"\r",
 							"        },\r",
 							"        \"name\": {\r",
 							"            \"type\": \"string\"\r",
@@ -498,10 +498,30 @@
 							"});\r",
 							"\r",
 							"\r",
-							"pm.test(\"Validtion schema\", () => {\r",
-							"var name_env = pm.environment.get(\"name\");\r",
-							"console.log(name_env)    \r",
-							"});"
+							"// -----Парсинг по ответу и запросу-------\r",
+							"var jsonData = pm.response.json();\r",
+							"var req = request.data \r",
+							"console.log(req)\r",
+							"\r",
+							"\r",
+							"// -----Проверка что значение поля name = значению переменной name из окружения-------\r",
+							"pm.test(\"Env_name_CHECK_Resp_name\", () => {\r",
+							"var env_name = pm.environment.get(\"name\");\r",
+							"console.log(env_name);\r",
+							"pm.expect(jsonData.name).to.eql(env_name);\r",
+							"    console.log('Success name_env_CHECK_Resp_name')\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// -----Проверка что значение поля age в ответе = значению переменной age из запроса-------\r",
+							"pm.test(\"Req_age_CHECK_Resp_age\", function () {\r",
+							"    pm.expect(req.age).to.eql(jsonData.age);\r",
+							"    console.log('Success Req_age_CHECK_Resp_age')\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -542,6 +562,163 @@
 					],
 					"path": [
 						"get_test_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HW_3_currency",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// -----Парсинг по ответу и запросу-------\r",
+							"var jsonData = pm.response.json();\r",
+							"console.log(jsonData)\r",
+							"var req = request.data \r",
+							"console.log(req)\r",
+							"\r",
+							"\r",
+							"//  Можете взять любой объект из присланного списка, используйте js random.\r",
+							"function get_random (list) {\r",
+							"  return list[Math.floor((Math.random()*list.length))];\r",
+							"}\r",
+							"\r",
+							"obj_rand = get_random(jsonData)\r",
+							"\r",
+							"\r",
+							"// В объекте возьмите Cur_ID и передать через окружение в следующий запрос.\r",
+							"console.log(obj_rand)\r",
+							"console.log(obj_rand.Cur_ID)\r",
+							"pm.environment.set(\"Cur_ID\", obj_rand.Cur_ID);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "auth_token",
+							"value": "{{auth_token_HW_33}}",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "dani",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "age",
+							"value": "25",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "salary",
+							"value": "2000",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_kostyl}}/currency",
+					"host": [
+						"{{url_kostyl}}"
+					],
+					"path": [
+						"currency"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HW_3_curr_byn",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Статус код 200 \r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const schema = {\r",
+							"    \"type\": \"object\",\r",
+							"    \"properties\": {\r",
+							"        \"Cur_Abbreviation\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"Cur_ID\": {\r",
+							"            \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"Cur_Name\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"        \"Cur_OfficialRate\": {\r",
+							"            \"type\": \"number\"\r",
+							"        },\r",
+							"        \"Cur_Scale\": {\r",
+							"            \"type\": \"integer\"\r",
+							"        },\r",
+							"        \"Date\": {\r",
+							"            \"type\": \"string\"\r",
+							"        },\r",
+							"    },\r",
+							"    \"required\": [\r",
+							"        \"Cur_Abbreviation\",\r",
+							"        \"Cur_ID\",\r",
+							"        \"Cur_Name\",\r",
+							"        \"Cur_OfficialRate\",\r",
+							"        \"Cur_Scale\",\r",
+							"        \"Date\"\r",
+							"    ]\r",
+							"};\r",
+							"pm.test(\"Validtion schema\", () => {\r",
+							"pm.response.to.have.jsonSchema(schema);\r",
+							"console.log('CHECK_schema_SUCCESS')    \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "auth_token",
+							"value": "{{auth_token_HW_33}}",
+							"type": "text"
+						},
+						{
+							"key": "curr_code",
+							"value": "{{Cur_ID}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_kostyl}}/curr_byn",
+					"host": [
+						"{{url_kostyl}}"
+					],
+					"path": [
+						"curr_byn"
 					]
 				}
 			},
