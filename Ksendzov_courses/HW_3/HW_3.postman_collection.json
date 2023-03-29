@@ -723,6 +723,58 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "HW_3_***",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// -----Парсинг по ответу и запросу-------\r",
+							"var jsonData = pm.response.json();\r",
+							"console.log(jsonData)\r",
+							"var req = request.data \r",
+							"console.log(req)\r",
+							"\r",
+							"\r",
+							"// -----Получить список валют-------\r",
+							"console.log(jsonData)\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "auth_token",
+							"value": "{{auth_token_HW_33}}",
+							"type": "text"
+						},
+						{
+							"key": "curr_code",
+							"value": "{{Cur_ID}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{url_kostyl}}/currency",
+					"host": [
+						"{{url_kostyl}}"
+					],
+					"path": [
+						"currency"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
